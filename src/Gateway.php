@@ -1,41 +1,47 @@
 <?php
 
-namespace Omnipay\Dummy;
+namespace Omnipay\CybersourceSoap;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Dummy\Message\AuthorizeRequest;
+use Omnipay\CybersourceSoap\Message\AuthorizeRequest;
 
 /**
- * Dummy Gateway
- *
- * This gateway is useful for testing. It simply authorizes any payment made using a valid
- * credit card number and expiry.
- *
- * Any card number which passes the Luhn algorithm and ends in an even number is authorized,
- * for example: 4242424242424242
- *
- * Any card number which passes the Luhn algorithm and ends in an odd number is declined,
- * for example: 4111111111111111
+ * CyberSource SOAP Gateway
  */
 class Gateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'Dummy';
-    }
-
-    public function getDefaultParameters()
-    {
-        return array();
+        return 'Cybersource Soap';
     }
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Dummy\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\CybersourceSoap\Message\AuthorizeRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->authorize($parameters);
+        return $this->createRequest('\Omnipay\CybersourceSoap\Message\PurchaseRequest', $parameters);
+    }
+
+    public function getMerchantId()
+    {
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
+    }
+
+    public function getTransactionKey()
+    {
+        return $this->getParameter('transactionKey');
+    }
+
+    public function setTransactionKey($value)
+    {
+        return $this->setParameter('transactionKey', $value);
     }
 }

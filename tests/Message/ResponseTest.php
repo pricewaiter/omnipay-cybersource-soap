@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Dummy\Message;
+namespace Omnipay\CybersourceSoap\Message;
 
 use Omnipay\Tests\TestCase;
 
@@ -10,7 +10,7 @@ class ResponseTest extends TestCase
     {
         $response = new Response(
             $this->getMockRequest(),
-            array('reference' => 'abc123', 'success' => 1, 'message' => 'Success')
+            array('requestId' => 'abc123', 'decision' => 'ACCEPT')
         );
 
         $this->assertTrue($response->isSuccessful());
@@ -23,7 +23,7 @@ class ResponseTest extends TestCase
     {
         $response = new Response(
             $this->getMockRequest(),
-            array('reference' => 'abc123', 'success' => 0, 'message' => 'Failure')
+            array('requestId' => 'abc123', 'decision' => 'REJECT')
         );
 
         $this->assertFalse($response->isSuccessful());

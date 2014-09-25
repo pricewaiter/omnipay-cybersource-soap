@@ -1,26 +1,30 @@
 <?php
 
-namespace Omnipay\Dummy\Message;
+namespace Omnipay\CybersourceSoap\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
- * Dummy Response
+ * Cybersource Response
  */
 class Response extends AbstractResponse
 {
     public function isSuccessful()
     {
-        return isset($this->data['success']) && $this->data['success'];
+        return isset($this->data['decision']) && $this->data['decision'] === 'ACCEPT';
     }
 
     public function getTransactionReference()
     {
-        return isset($this->data['reference']) ? $this->data['reference'] : null;
+        return isset($this->data['requestId']) ? $this->data['requestId'] : null;
     }
 
     public function getMessage()
     {
-        return isset($this->data['message']) ? $this->data['message'] : null;
+        if ($this->isSuccessful()) {
+            return 'Success';
+        }
+
+        return 'Failure';
     }
 }

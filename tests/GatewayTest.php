@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Dummy;
+namespace Omnipay\CybersourceSoap;
 
 use Omnipay\Tests\GatewayTestCase;
 
@@ -11,62 +11,70 @@ class GatewayTest extends GatewayTestCase
         parent::setUp();
 
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway->setMerchantId('merchant_b');
+        $this->gateway->setTransactionKey('trans_key');
 
         $this->options = array(
             'amount' => '10.00',
             'card' => $this->getValidCard(),
+            'transactionId' => 'abc123',
         );
+        $this->options['card']['email'] = 'buyer@example.com';
     }
 
-    public function testAuthorizeSuccess()
+    public function testProperties()
     {
-        // card numbers ending in even number should be successful
-        $this->options['card']['number'] = '4242424242424242';
-        $response = $this->gateway->authorize($this->options)->send();
-
-        $this->assertInstanceOf('\Omnipay\Dummy\Message\Response', $response);
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertNotEmpty($response->getTransactionReference());
-        $this->assertSame('Success', $response->getMessage());
-    }
-
-    public function testAuthorizeFailure()
-    {
-        // card numbers ending in odd number should be declined
-        $this->options['card']['number'] = '4111111111111111';
-        $response = $this->gateway->authorize($this->options)->send();
-
-        $this->assertInstanceOf('\Omnipay\Dummy\Message\Response', $response);
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertNotEmpty($response->getTransactionReference());
-        $this->assertSame('Failure', $response->getMessage());
+        $this->assertEquals('merchant_b', $this->gateway->getMerchantId());
+        $this->assertEquals('trans_key', $this->gateway->getTransactionKey());
     }
 
     public function testPurchaseSuccess()
     {
-        // card numbers ending in even number should be successful
-        $this->options['card']['number'] = '4242424242424242';
+        $this->setMockHttpResponse('PurchaseResponseSuccess.txt');
+
         $response = $this->gateway->purchase($this->options)->send();
 
-        $this->assertInstanceOf('\Omnipay\Dummy\Message\Response', $response);
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNotEmpty($response->getTransactionReference());
-        $this->assertSame('Success', $response->getMessage());
+        $this->assertEquals('4116875965340176195995', $response->getTransactionReference());
     }
 
-    public function testPurcahseFailure()
+    public function testAuthorizeSuccess()
     {
-        // card numbers ending in odd number should be declined
-        $this->options['card']['number'] = '4111111111111111';
-        $response = $this->gateway->purchase($this->options)->send();
+        $this->setMockHttpResponse('AuthorizeResponseSuccess.txt');
 
-        $this->assertInstanceOf('\Omnipay\Dummy\Message\Response', $response);
+        $response = $this->gateway->authorize($this->options)->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertEquals('4116875978770176195842', $response->getTransactionReference());
+    }
+
+    public function testPurchaseFailure()
+    {
+        $this->setMockHttpResponse('PurchaseResponseFailure.txt');
+
+        $options = $this->options;
+        $options['card']['number'] = '4111111111111112';
+
+        $response = $this->gateway->purchase($options)->send();
+
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNotEmpty($response->getTransactionReference());
-        $this->assertSame('Failure', $response->getMessage());
+        // $this->assertEquals('4116875965340176195995', $response->getTransactionReference());
+    }
+
+    public function testAuthorizeFailure()
+    {
+        $this->setMockHttpResponse('AuthorizeResponseFailure.txt');
+
+        $options = $this->options;
+        $options['card']['number'] = '4111111111111112';
+
+        $response = $this->gateway->authorize($options)->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        // $this->assertEquals('4116875978770176195842', $response->getTransactionReference());
     }
 }

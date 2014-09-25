@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+Date: Tue, 11 Feb 2014 02:34:58 GMT
+Content-type: text/xml; charset=utf-8
+
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Header>
+<wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><wsu:Timestamp xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="Timestamp-498171866"><wsu:Created>2014-09-25T23:38:06.959Z</wsu:Created></wsu:Timestamp></wsse:Security></soap:Header><soap:Body><c:replyMessage xmlns:c="urn:schemas-cybersource-com:transaction-data-1.26"><c:merchantReferenceCode>abc123</c:merchantReferenceCode><c:requestID>4116882869130176195844</c:requestID><c:decision>REJECT</c:decision><c:reasonCode>231</c:reasonCode><c:requestToken>Ahj77wSRvlp0KpZWPtoIIp/FDvn0YAp/FDvn0ZpAr6EKxOfSTLdIDtBigFJG+WnQqllY+2gg3Cmx</c:requestToken><c:ccAuthReply><c:reasonCode>231</c:reasonCode></c:ccAuthReply></c:replyMessage></soap:Body></soap:Envelope>

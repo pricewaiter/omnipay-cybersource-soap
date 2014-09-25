@@ -1,29 +1,26 @@
 {
-    "name": "omnipay/dummy",
+    "name": "omnipay/cybersource-soap",
     "type": "library",
-    "description": "Dummy driver for the Omnipay payment processing library",
+    "description": "Cybersource SOAP API driver for the Omnipay payment processing library",
     "keywords": [
-        "dummy",
+        "cybersource",
+        "soap",
         "gateway",
         "merchant",
         "omnipay",
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/thephpleague/omnipay-dummy",
+    "homepage": "https://github.com/pricewaiter/omnipay-cybersource-soap",
     "license": "MIT",
     "authors": [
         {
-            "name": "Adrian Macneil",
-            "email": "adrian@adrianmacneil.com"
-        },
-        {
-            "name": "Omnipay Contributors",
-            "homepage": "https://github.com/thephpleague/omnipay-dummy/contributors"
+            "name": "Mike Estes",
+            "email": "mike.e@pricewaiter.com"
         }
     ],
     "autoload": {
-        "psr-4": { "Omnipay\\Dummy\\" : "src/" }
+        "psr-4": { "Omnipay\\CybersourceSoap\\" : "src/" }
     },
     "require": {
         "omnipay/common": "~2.0"
