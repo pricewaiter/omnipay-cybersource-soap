@@ -1,4 +1,4 @@
-# Omnipay: Cybersource
+# Omnipay: Cybersource SOAP API
 
 **Cybersource SOAP driver for the Omnipay PHP payment processing library**
 
