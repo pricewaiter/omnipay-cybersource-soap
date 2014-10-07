@@ -35,6 +35,7 @@ class Response extends AbstractResponse
 
     private function generateErrorMessage($code)
     {
+        // @codingStandardsIgnoreStart
         $responseCodes = array(
             '100' => "Successful transaction",
             '101' => "Request is missing one or more required fields" ,
@@ -75,6 +76,7 @@ class Response extends AbstractResponse
             '254' => "Your CyberSource account is prohibited from processing stand-alone refunds",
             '255' => "Your CyberSource account is not configured to process the service in the country you specified"
         );
+        // @codingStandardsIgnoreEnd
 
         if (isset($responseCodes[$code])) {
             return $responseCodes[$code];
