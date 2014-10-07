@@ -61,7 +61,8 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        // $this->assertEquals('4116875965340176195995', $response->getTransactionReference());
+        $this->assertEquals('231', $response->getCode());
+        $this->assertEquals('Invalid account number', $response->getMessage());
     }
 
     public function testAuthorizeFailure()
@@ -75,6 +76,7 @@ class GatewayTest extends GatewayTestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        // $this->assertEquals('4116875978770176195842', $response->getTransactionReference());
+        $this->assertEquals('231', $response->getCode());
+        $this->assertEquals('Invalid account number', $response->getMessage());
     }
 }
