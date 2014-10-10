@@ -25,6 +25,8 @@ class AuthorizeRequest extends AbstractRequest
 
     public function getData()
     {
+        $this->getCard()->validate();
+
         $user = $this->getParameter('merchantId');
         $password = $this->getParameter('transactionKey');
 

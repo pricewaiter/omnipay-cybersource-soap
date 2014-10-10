@@ -50,33 +50,25 @@ class GatewayTest extends GatewayTestCase
         $this->assertEquals('4116875978770176195842', $response->getTransactionReference());
     }
 
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     */
     public function testPurchaseFailure()
     {
-        $this->setMockHttpResponse('PurchaseResponseFailure.txt');
-
         $options = $this->options;
         $options['card']['number'] = '4111111111111112';
 
-        $response = $this->gateway->purchase($options)->send();
-
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertEquals('231', $response->getCode());
-        $this->assertEquals('Invalid account number', $response->getMessage());
+        $this->gateway->purchase($options)->send();
     }
 
+    /**
+     * @expectedException \Omnipay\Common\Exception\InvalidCreditCardException
+     */
     public function testAuthorizeFailure()
     {
-        $this->setMockHttpResponse('AuthorizeResponseFailure.txt');
-
         $options = $this->options;
         $options['card']['number'] = '4111111111111112';
 
-        $response = $this->gateway->authorize($options)->send();
-
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertEquals('231', $response->getCode());
-        $this->assertEquals('Invalid account number', $response->getMessage());
+        $this->gateway->authorize($options)->send();
     }
 }
